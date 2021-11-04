@@ -11,5 +11,6 @@ namespace Loopr.repository
         public void Save(AudioFile audioFile);
         public List<AudioFile> GetAll();
         public AudioFile Get(int id);
+        public void Delete(int id);
     }
 }

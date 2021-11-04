@@ -26,7 +26,7 @@ namespace Loopr
             services.AddControllers();
 
             services.AddDbContext<AudioContext>(
-                options => options.UseMySQL(Configuration.GetConnectionString("localMySql")));
+                options => options.UseMySQL(Configuration.GetConnectionString("looprDB")));
 
             services.AddScoped<IRepository, AudioRepository>();
         }

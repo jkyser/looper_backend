@@ -28,22 +28,34 @@ namespace Loopr.repository
 
         /**
          * 
-         * Gets all audio files from the database
+         * Gets all audio file entries from the database
          * 
          */
         public List<AudioFile> GetAll()
         {
-            return new List<AudioFile>();
+            return _context.AudioFiles.ToList();
         }
 
         /**
          * 
-         * Gets an individual audio file from the database
+         * Gets an individual audio file entry from the database
          * 
          */
         public AudioFile Get(int id)
         {
-            return new AudioFile();
+            return _context.AudioFiles.Single(f => f.Id == id);
+        }
+
+        /**
+         * 
+         * Deletes an individual audio file entry from the databse
+         * 
+         */
+        public void Delete(int id)
+        {
+            AudioFile toDelete = _context.AudioFiles.Single(f => f.Id == id);
+            _context.Remove(toDelete);
+            _context.SaveChanges();
         }
     }
 }

@@ -18,38 +18,52 @@ namespace Loopr.Controllers
             _audioRepo = audioRepo;
         }
 
-        // GET: api/audio
+        /**
+         * GET api/audio
+         * 
+         * Get all of the audio file entries in the database
+         */
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<AudioFile> GetAllAudioFiles()
         {
-            return new string[] { "value1", "value2" };
+            return _audioRepo.GetAll();
         }
 
-        // GET api/audio/5
+        /**
+         * GET api/audio/{id}
+         * 
+         * Get an audio file by the audio file entry id
+         */
         [HttpGet("{id}")]
-        public string Get(int id)
+        public AudioFile GetAudioFile(int id)
         {
-            return "value";
+            return _audioRepo.Get(id);
         }
 
-        // POST api/audio
+        /**
+         * POST api/audio
+         * 
+         * Create a new audio file entry in the database
+         */
         [HttpPost]
-        public void PostAudioFile([FromBody] AudioFile audioFile)
+        public IActionResult PostAudioFile([FromBody] AudioFile audioFile)
         {
             _audioRepo.Save(audioFile);
-            //return CreatedAtAction();
+            return CreatedAtAction(nameof(GetAudioFile), new { id = audioFile.Id }, audioFile);
         }
 
-        // PUT api/audio/5
+        // PUT api/audio/{}id
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/audio/5
+        // DELETE api/audio/{id}
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _audioRepo.Delete(id);
+            NoContent();
         }
     }
 }
