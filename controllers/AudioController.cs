@@ -1,8 +1,6 @@
-﻿using Loopr.audioDB;
+﻿using Loopr.dto;
 using Loopr.repository;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 
 namespace Loopr.Controllers
@@ -19,23 +17,12 @@ namespace Loopr.Controllers
         }
 
         /**
-         * GET api/audio
-         * 
-         * Get all of the audio file entries in the database
-         */
-        [HttpGet]
-        public IEnumerable<AudioFile> GetAllAudioFiles()
-        {
-            return _audioRepo.GetAll();
-        }
-
-        /**
          * GET api/audio/{id}
          * 
-         * Get an audio file by the audio file entry id
+         * Gets all the associated audio files with the requested session
          */
         [HttpGet("{id}")]
-        public AudioFile GetAudioFile(int id)
+        public SessionTrackDto GetSession(int id)
         {
             return _audioRepo.Get(id);
         }
@@ -46,24 +33,16 @@ namespace Loopr.Controllers
          * Create a new audio file entry in the database
          */
         [HttpPost]
-        public IActionResult PostAudioFile([FromBody] AudioFile audioFile)
+        public IActionResult SaveSession([FromBody] SessionTrackDto sessionTrackDto)
         {
-            _audioRepo.Save(audioFile);
-            return CreatedAtAction(nameof(GetAudioFile), new { id = audioFile.Id }, audioFile);
+            _audioRepo.Save(sessionTrackDto.Session, sessionTrackDto.Tracks);
+            return CreatedAtAction(nameof(GetSession), new { id = sessionTrackDto.Session.SessionId }, sessionTrackDto);
         }
 
         // PUT api/audio/{}id
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-        }
-
-        // DELETE api/audio/{id}
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _audioRepo.Delete(id);
-            NoContent();
         }
     }
 }

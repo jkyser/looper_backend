@@ -75,3 +75,4 @@ C:\Users\Josh\Desktop\CS467\loopr back-end\Loopr\bin\Debug\net5.0\Amazon.Lambda.
 C:\Users\Josh\Desktop\CS467\loopr back-end\Loopr\bin\Debug\net5.0\Amazon.Lambda.Core.dll
 C:\Users\Josh\Desktop\CS467\loopr back-end\Loopr\bin\Debug\net5.0\Amazon.Lambda.Logging.AspNetCore.dll
 C:\Users\Josh\Desktop\CS467\loopr back-end\Loopr\bin\Debug\net5.0\Amazon.Lambda.Serialization.SystemTextJson.dll
+C:\Users\Josh\Desktop\CS467\loopr back-end\Loopr\obj\Debug\net5.0\Loopr.csproj.AssemblyReference.cache

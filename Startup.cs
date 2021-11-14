@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
+using System.Text.Json.Serialization;
 
 namespace Loopr
 {
@@ -24,11 +25,13 @@ namespace Loopr
         {
 
             services.AddControllers();
+            services.AddSingleton(_ => Configuration);
 
             services.AddDbContext<AudioContext>(
-                options => options.UseMySQL(Configuration.GetConnectionString("looprDB")));
+                options => options.UseMySQL(Configuration.GetConnectionString("devDB")));
 
             services.AddScoped<IRepository, AudioRepository>();
+            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,17 @@
+﻿CREATE TABLE `audio`.`session` (
+`sessionId` INT NOT NULL AUTO_INCREMENT,
+`sessionName` VARCHAR(255) NOT NULL,
+`sessionDate` DATETIME NOT NULL,
+PRIMARY KEY (`sessionId`));
+
+CREATE TABLE `audio`.`track` (
+`trackId` INT NOT NULL AUTO_INCREMENT,
+`sessionId` INT NOT NULL,
+`trackName` VARCHAR(255) NOT NULL,
+PRIMARY KEY (`trackId`),
+INDEX `FK_TRACK_SESSION_idx` (`sessionId` ASC) VISIBLE,
+CONSTRAINT `FK_TRACK_SESSION`
+	FOREIGN KEY (`sessionId`)
+	REFERENCES `audio`.`session` (`sessionId`)
+	ON DELETE NO ACTION
+	ON UPDATE NO ACTION);

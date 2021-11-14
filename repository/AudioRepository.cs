@@ -1,8 +1,7 @@
 ﻿using Loopr.audioDB;
-using System;
+using Loopr.dto;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Loopr.repository
 {
@@ -17,45 +16,35 @@ namespace Loopr.repository
 
         /**
          * 
-         * Saves an entity to the audio files database
+         * Saves a session and its associated tracks
          * 
          */
-        public void Save(AudioFile audioFile)
+        public void Save(Session session, List<Track> tracks)
         {
-            _context.AudioFiles.Add(audioFile);
+            // add session to context
+            session.Tracks = tracks;
+            _context.Sessions.Add(session);
             _context.SaveChanges();
         }
 
         /**
          * 
-         * Gets all audio file entries from the database
+         * Gets a session and the associated tracks from the database
          * 
          */
-        public List<AudioFile> GetAll()
+        public SessionTrackDto Get(int id)
         {
-            return _context.AudioFiles.ToList();
-        }
+            SessionTrackDto sessionTrackDto = new SessionTrackDto();
 
-        /**
-         * 
-         * Gets an individual audio file entry from the database
-         * 
-         */
-        public AudioFile Get(int id)
-        {
-            return _context.AudioFiles.Single(f => f.Id == id);
-        }
+            // get session
+            Session session = _context.Sessions.Where(s => s.SessionId == id).FirstOrDefault();
+            sessionTrackDto.Session = session;
 
-        /**
-         * 
-         * Deletes an individual audio file entry from the databse
-         * 
-         */
-        public void Delete(int id)
-        {
-            AudioFile toDelete = _context.AudioFiles.Single(f => f.Id == id);
-            _context.Remove(toDelete);
-            _context.SaveChanges();
+            // get list of tracks for the session
+            List<Track> tracks = _context.Tracks.Where(t => t.SessionId == id).ToList();
+            sessionTrackDto.Tracks = tracks;
+
+            return sessionTrackDto;
         }
     }
 }
