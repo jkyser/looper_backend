@@ -1,12 +1,15 @@
-﻿using Loopr.dto;
+﻿using Loopr.audioDB;
+using Loopr.dto;
 using Loopr.repository;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
 
 namespace Loopr.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAll")]
     public class AudioController : ControllerBase
     {
         private readonly IRepository _audioRepo;
@@ -17,12 +20,23 @@ namespace Loopr.Controllers
         }
 
         /**
+         * GET api/audio
+         * 
+         * Gets all of the sessions that have been saved
+         */
+        [HttpGet]
+        public List<Session> GetSessions()
+        {
+            return _audioRepo.GetAll();
+        }
+
+        /**
          * GET api/audio/{id}
          * 
-         * Gets all the associated audio files with the requested session
+         * Gets all the associated track files with the requested session
          */
         [HttpGet("{id}")]
-        public SessionTrackDto GetSession(int id)
+        public Session GetSession(int id)
         {
             return _audioRepo.Get(id);
         }

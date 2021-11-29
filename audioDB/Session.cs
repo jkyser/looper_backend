@@ -15,6 +15,7 @@ namespace Loopr.audioDB
         public int SessionId { get; set; }
         public string SessionName { get; set; }
         public DateTime SessionDate { get; set; }
+        public string SessionDescription { get; set; }
 
         public virtual ICollection<Track> Tracks { get; set; }
     }

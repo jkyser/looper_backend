@@ -18,7 +18,7 @@ namespace Loopr.audioDB
         public AudioContext(DbContextOptions<AudioContext> options, IConfiguration config)
             : base(options)
         {
-            ConnString = config.GetConnectionString("devDB");
+            ConnString = config.GetConnectionString("looprDB");
         }
 
         public string ConnString { get; set;  }
@@ -47,6 +47,11 @@ namespace Loopr.audioDB
                     .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("sessionName");
+
+                entity.Property(e => e.SessionDescription)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnName("sessionDescription");
             });
 
             modelBuilder.Entity<Track>(entity =>

@@ -1,5 +1,6 @@
 ﻿using Loopr.audioDB;
 using Loopr.dto;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,19 +33,19 @@ namespace Loopr.repository
          * Gets a session and the associated tracks from the database
          * 
          */
-        public SessionTrackDto Get(int id)
+        public Session Get(int id)
         {
-            SessionTrackDto sessionTrackDto = new SessionTrackDto();
+            return _context.Sessions.Where(s => s.SessionId == id).Include(s => s.Tracks).FirstOrDefault();
+        }
 
-            // get session
-            Session session = _context.Sessions.Where(s => s.SessionId == id).FirstOrDefault();
-            sessionTrackDto.Session = session;
-
-            // get list of tracks for the session
-            List<Track> tracks = _context.Tracks.Where(t => t.SessionId == id).ToList();
-            sessionTrackDto.Tracks = tracks;
-
-            return sessionTrackDto;
+        /**
+         * 
+         * Returns all sessions in the database
+         * 
+         */
+        public List<Session> GetAll()
+        {
+            return _context.Sessions.ToList();
         }
     }
 }

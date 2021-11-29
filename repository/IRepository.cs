@@ -7,6 +7,7 @@ namespace Loopr.repository
     public interface IRepository
     {
         public void Save(Session session, List<Track> tracks);
-        public SessionTrackDto Get(int id);
+        public Session Get(int id);
+        public List<Session> GetAll();
     }
 }

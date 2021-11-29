@@ -23,12 +23,25 @@ namespace Loopr
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder
+                            .WithOrigins("http://localhost:3030")
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowAnyHeader();
+                    });
+            });
 
             services.AddControllers();
             services.AddSingleton(_ => Configuration);
 
             services.AddDbContext<AudioContext>(
-                options => options.UseMySQL(Configuration.GetConnectionString("devDB")));
+                options => options.UseMySQL(Configuration.GetConnectionString("looprDB")));
 
             services.AddScoped<IRepository, AudioRepository>();
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -42,11 +55,13 @@ namespace Loopr
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors("AllowAll");
+
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
